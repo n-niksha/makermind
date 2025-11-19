@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate of Completion | MakerMind</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Pinyon+Script&family=Outfit:wght@300;400&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root {
+            --primary: #6366f1;
+            /* Indigo */
+            --dark: #111827;
+            --gray: #6b7280;
+            --light: #f9fafb;
+            --border: #e5e7eb;
+            --bg-site: #0a0a0c;
+            /* Site Dark Theme */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-site);
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+            color: white;
+        }
+
+        .controls {
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Certificate Container for PDF */
+        #certificate-container {
+            width: 1123px;
+            /* A4 Landscape width */
+            height: 794px;
+            /* A4 Landscape height */
+            background-color: white;
+            position: relative;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            color: var(--dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            flex-shrink: 0;
+            /* Prevent shrinking on small screens */
+        }
+
+        /* Clean Border */
+        .border-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 20px solid var(--light);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .inner-border {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            border: 2px solid var(--border);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--light);
+            z-index: 2;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+            letter-spacing: -0.03em;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .cert-id {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            color: var(--gray);
+            letter-spacing: 0.05em;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 4rem;
+            z-index: 2;
+            width: 100%;
+        }
+
+        .title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .recipient {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            line-height: 1.1;
+            max-width: 900px;
+            word-wrap: break-word;
+        }
+
+        .project-name {
+            font-size: 1.8rem;
+            color: var(--dark);
+            font-weight: 600;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            word-wrap: break-word;
+        }
+
+        .abstract-box {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 12px;
+            max-width: 800px;
+            margin: 0 auto 2rem auto;
+            width: 100%;
+        }
+
+        .abstract {
+            font-size: 1rem;
+            color: #4b5563;
+            line-height: 1.5;
+        }
+
+        .skills-container {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+            max-width: 900px;
+        }
+
+        .skill-tag {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--gray);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .date-section {
+            position: absolute;
+            bottom: 40px;
+            right: 60px;
+            text-align: right;
+            z-index: 2;
+        }
+
+        .date-label {
+            font-size: 0.85rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .date-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            color: var(--dark);
+            font-weight: 600;
+            border-bottom: none;
+            padding-bottom: 0;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="controls">
+        <a href="index.html" class="btn btn-secondary">← Back to Home</a>
+        <button onclick="downloadPDF()" class="btn btn-primary">Download PDF ⬇️</button>
+    </div>
+
+    <div id="certificate-container">
+        <div class="border-frame"></div>
+        <div class="inner-border"></div>
+
+        <div class="header-section">
+            <div class="logo">MakerMind<span>.</span></div>
+            <div class="cert-id">ID: <span id="cert-id-val">MM-2024-001</span></div>
+        </div>
+
+        <div class="main-content">
+            <div class="title">Certificate of Completion</div>
+            <div class="subtitle">This document certifies that</div>
+
+            <div class="recipient" id="cert-name">Student Name</div>
+
+            <div class="subtitle" style="margin-bottom: 1rem;">has successfully engineered and built the</div>
+            <div class="project-name" id="cert-project">Project Title</div>
+
+            <div class="abstract-box">
+                <p class="abstract" id="cert-abstract">
+                    Project abstract goes here.
+                </p>
+            </div>
+
+            <div class="skills-container" id="cert-skills">
+                <!-- Skills injected here -->
+            </div>
+        </div>
+
+        <div class="date-section">
+            <div class="date-label">Date Issued</div>
+            <div class="date-value" id="cert-date">Date</div>
+        </div>
+    </div>
+
+    <script>
+        // Load data from localStorage
+        const data = JSON.parse(localStorage.getItem('makerMindCertData'));
+
+        if (data) {
+            document.getElementById('cert-name').innerText = data.name;
+            document.getElementById('cert-project').innerText = data.projectTitle;
+            document.getElementById('cert-abstract').innerText = data.abstract;
+
+            // Generate Random ID
+            const randomId = 'MM-' + new Date().getFullYear() + '-' + Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('cert-id-val').innerText = randomId;
+
+            // Skills
+            const skillsContainer = document.getElementById('cert-skills');
+            skillsContainer.innerHTML = '';
+            data.skills.forEach(skill => {
+                const tag = document.createElement('div');
+                tag.className = 'skill-tag';
+                tag.innerText = skill;
+                skillsContainer.appendChild(tag);
+            });
+
+            document.getElementById('cert-date').innerText = new Date().toLocaleDateString();
+        } else {
+            // Demo Data for preview if accessed directly
+            document.getElementById('cert-name').innerText = "John Doe";
+            document.getElementById('cert-project').innerText = "Smart Home Sensor";
+            document.getElementById('cert-abstract').innerText = "Demonstrated proficiency in IoT systems by integrating ESP32 microcontrollers with environmental sensors.";
+            document.getElementById('cert-skills').innerHTML = '<div class="skill-tag">Circuit Design</div><div class="skill-tag">C++ Programming</div>';
+            document.getElementById('cert-date').innerText = new Date().toLocaleDateString();
+        }
+
+        function downloadPDF() {
+            const element = document.getElementById('certificate-container');
+            const opt = {
+                margin: 0,
+                filename: `MakerMind_Certificate_${data ? data.projectTitle.replace(/\s+/g, '_') : 'Certificate'}.pdf`,
+                image: { type: 'jpeg', quality: 1 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+            };
+
+            // Use html2pdf library
+            html2pdf().set(opt).from(element).save();
+        }
+    </script>
+</body>
+
+</html>
+```

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MakerMind | Find Your Next Engineering Project</title>
+    <meta name="description"
+        content="Discover fun, useful, and impressive engineering projects tailored to your skills and interests.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Space+Grotesk:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="logo">MakerMind<span class="dot">.</span></div>
+            <div class="nav-links">
+                <a href="#" onclick="location.reload()">Home</a>
+                <a href="catalog.html">Catalog</a>
+                <a href="#about">About</a>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section id="hero" class="hero-section active">
+            <div class="hero-content">
+                <h1 class="animate-up">Build Something <span class="highlight">Extraordinary</span>.</h1>
+                <p class="animate-up delay-1">Stop scrolling. Start making. Discover engineering projects that match
+                    your skills, tools, and wild ideas.</p>
+                <button id="start-btn" class="cta-button animate-up delay-2">Find My Project</button>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-shape shape-1"></div>
+                <div class="floating-shape shape-2"></div>
+                <div class="floating-shape shape-3"></div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section id="quiz" class="quiz-section hidden">
+            <div class="quiz-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="question-card" id="question-card">
+                    <!-- Dynamic Content -->
+                </div>
+                <div class="quiz-controls">
+                    <button id="prev-btn" class="nav-btn hidden">Back</button>
+                    <!-- Next button is handled by option selection usually, but we can keep one for multi-select if needed -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results" class="results-section hidden">
+            <div class="results-header">
+                <h2>Your Next Builds</h2>
+                <p>Based on your profile, here are the best projects for you.</p>
+                <div class="filter-tabs">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="useful">Useful</button>
+                    <button class="filter-btn" data-filter="fun">Fun</button>
+                    <button class="filter-btn" data-filter="portfolio">Portfolio</button>
+                </div>
+            </div>
+            <div class="projects-grid" id="projects-grid">
+                <!-- Dynamic Project Cards -->
+            </div>
+            <button id="restart-btn" class="secondary-btn">Start Over</button>
+        </section>
+    </div>
+
+    <!-- Project Detail Modal -->
+    <div id="project-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modal-body">
+                <!-- Dynamic Modal Content -->
+            </div>
+        </div>
+    </div>
+
+    <script src="projects.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
